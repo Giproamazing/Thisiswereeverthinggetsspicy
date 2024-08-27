@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.2s ease;
+        }
+        .chatbox {
+            width: 300px;
+            margin: 50px auto;
+            border: 2px solid white;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 15px;
+        }
+        .chatbox .message {
+            margin: 5px 0;
+        }
+        .chatbox .message.user {
+            text-align: right;
+        }
+        .chatbox .message.bot {
+            text-align: left;
+        }
+        .chatbox input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 2px solid white;
+            background-color: #333;
+            color: white;
+            box-sizing: border-box;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        .chatbox input[type="text"]::placeholder {
+            color: #aaa;
+        }
+        .link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .flashy {
+            color: red;
+            text-shadow: 0 0 10px white;
+            background-color: black;
+        }
+        .image {
+            width: 100px;
+            height: 100px;
+            margin: 5px 0;
+        }
+        .cipher {
+            white-space: pre;
+            font-family: monospace;
+        }
+        .small-text {
+            font-size: 0.7em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbox" id="chatbox">
+        <div class="message">Ask me something...</div>
+    </div>
+    <input type="text" id="userInput" placeholder="Type here...">
+    
+    <script>
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+
+        // Define responses in a hidden variable
+        const hiddenResponses = {
+            'door': 'Door is the gateway of the place where it started called subject70-willam',
+            'where is willam': 'I can\'t answer the questions but I can redirect you to this page: <a href="https://giproamazing.github.io/Plehdeeni/" class="link">click here</a>',
+            'willam': 'I can\'t answer the questions but I can redirect you to this page: <a href="https://giproamazing.github.io/Plehdeeni/" class="link">click here</a>',
+            'aasher': null,
+            'assher': null,
+            'cipher': `Generating...\n\nHere is the cipher:\n\n00000000\n00000010\n00000020\n00000030\n00000040\n00000050\n00000060\n00000070\n00000080\n00000090\na6\t13\t38\t4a\t84\te0\t77\t89\t27\ta1\t03\t3e\t8a\tf1\t14\t4f\n5e\t12\tcb\t4b\t71\tcc\t8e\tdf\t18\teb\t81\t66\tb6\t05\t5d\tb1\nd0\t36\td6\t8f\t77\td9\t99\ta2\t75\t42\t44\t55\t40\t29\tc8\t5b\n62\td2\t51\te3\taf\t53\t64\t9e\t64\t6f\t52\t2c\t1d\td1\t4e\tf5\nf2\t60\t55\tff\tea\te0\t95\t1d\tc2\t06\t2c\tec\te5\t8d\t70\t13\n07\tb6\t97\t43\t1d\t8b\t08\t90\tf4\t75\t25\t9b\t6a\t55\t23\t74\n66\tb7\t4f\t14\t69\te9\t7a\tbe\t32\t16\tbd\tb5\td6\t9c\td3\t5b\n71\tb1\tff\tde\t67\t7a\t4c\t67\tdd\t6c\t45\t47\t00\t7c\t40\t6a\n76\t18\ta2\t90\t54\t4c\tb5\tee\t0f\t32\tdd\t42\te9\t39\t94\t08\n50\te1\t97\tfc\t75\t2d\t75\ta1\tcf\t2c\t02\t4c\t3a\t16\tae\t88\n\nSolve it and have fun!`,
+            'subject71': '1971 <span class="small-text">go to swagydotcom</span>'
+        };
+
+        let asherResponseState = 0;
+
+        function appendMessage(text, className) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${className}`;
+            messageDiv.innerHTML = text;
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+        }
+
+        function handleInput() {
+            const input = userInput.value.trim().toLowerCase();
+            userInput.value = '';
+            let response;
+
+            // Use a function to get the appropriate response
+            response = getResponse(input);
+
+            appendMessage(response, 'bot');
+        }
+
+        function getResponse(input) {
+            let response = 'I don\'t understand';
+
+            if (input === 'who is aasher' || input === 'aasher' || input === 'assher') {
+                if (asherResponseState === 0) {
+                    response = 'A amazing person';
+                    asherResponseState++;
+                } else if (asherResponseState === 1) {
+                    response = 'Cool person';
+                    asherResponseState++;
+                } else if (asherResponseState === 2) {
+                    response = '<span style="color: red;">He caged me here help me</span>';
+                    asherResponseState++;
+                } else if (asherResponseState === 3) {
+                    response = '<span class="flashy">He is not what you think he is</span>';
+                    asherResponseState = 0; // Reset for next time
+                }
+            } else if (hiddenResponses[input]) {
+                response = hiddenResponses[input];
+            }
+
+            return response;
+        }
+
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleInput();
+            }
+        });
+    </script>
+</body>
+</html>
